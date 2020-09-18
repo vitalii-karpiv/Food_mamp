@@ -371,6 +371,15 @@ window.addEventListener('DOMContentLoaded', function() {
         width = window.getComputedStyle(slideWrapper).width,
         slidesField = document.querySelector('.offer__slider-inner');
 
+  function deleteSumbols(string) {
+      return +string.replace(/\D/g, '');
+  };
+
+  function dotsRefresh() {
+    dots.forEach(dot => dot.style.opacity = ".5");
+    dots[slideIndex-1].style.opacity = 1;
+  };
+
   if (slides.length < 10) {
       totalSlides.textContent = `0${slides.length}`;
       currentSlide.textContent = `0${slideIndex}`
@@ -434,11 +443,11 @@ window.addEventListener('DOMContentLoaded', function() {
   };
 
   next.addEventListener('click', () => {
-      if (offset == (+width.replace(/\D/g, "") * (slides.length - 1))) {
+      if (offset == deleteSumbols(width) * (slides.length - 1)) {
           offset = 0;
       } else {
-          offset += +width.replace(/\D/g, "");
-      }
+          offset += deleteSumbols(width);
+      };
 
       slidesField.style.transform = `translateX(-${offset}px`;
 
@@ -454,16 +463,15 @@ window.addEventListener('DOMContentLoaded', function() {
         currentSlide.textContent =  slideIndex;
       }
 
-      dots.forEach(dot => dot.style.opacity = ".5")
-      dots[slideIndex-1].style.opacity = 1;
+      dotsRefresh();
       })
   
 
   prev.addEventListener('click', () => {
     if (offset == 0) {
-        offset = +width.replace(/\D/g, "") * (slides.length - 1);
+        offset = deleteSumbols(width) * (slides.length - 1);
     } else {
-        offset -= +width.replace(/\D/g, "");
+        offset -= deleteSumbols(width);
     }
 
     slidesField.style.transform = `translateX(-${offset}px)`;
@@ -480,8 +488,7 @@ window.addEventListener('DOMContentLoaded', function() {
         currentSlide.textContent =  slideIndex;
     }
 
-    dots.forEach(dot => dot.style.opacity = ".5");
-    dots[slideIndex-1].style.opacity = 1;
+    dotsRefresh();
   });
 
   dots.forEach(dot => {
@@ -489,7 +496,7 @@ window.addEventListener('DOMContentLoaded', function() {
           const slideTo = e.target.getAttribute('data-slide-to');
 
           slideIndex = slideTo;
-          offset = +width.replace(/\D/g, "") * (slideTo - 1);
+          offset = deleteSumbols(width) * (slideTo - 1);
 
           slidesField.style.transform = `translateX(-${offset}px)`;
 
@@ -499,8 +506,7 @@ window.addEventListener('DOMContentLoaded', function() {
               current.textContent = slideIndex;
           }
 
-          dots.forEach(dot => dot.style.opacity = ".5");
-          dots[slideIndex-1].style.opacity = 1;
+          dotsRefresh();
         });
     });
 });
