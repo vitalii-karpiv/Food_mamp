@@ -1,13 +1,13 @@
-window.addEventListener('DOMContentLoaded', function() {
+window.addEventListener('DOMContentLoaded', function () {
 
     // Tabs
-    
-	let tabs = document.querySelectorAll('.tabheader__item'),
-		tabsContent = document.querySelectorAll('.tabcontent'),
-		tabsParent = document.querySelector('.tabheader__items');
 
-	function hideTabContent() {
-        
+    let tabs = document.querySelectorAll('.tabheader__item'),
+        tabsContent = document.querySelectorAll('.tabcontent'),
+        tabsParent = document.querySelector('.tabheader__items');
+
+    function hideTabContent() {
+
         tabsContent.forEach(item => {
             item.classList.add('hide');
             item.classList.remove('show', 'fade');
@@ -16,39 +16,39 @@ window.addEventListener('DOMContentLoaded', function() {
         tabs.forEach(item => {
             item.classList.remove('tabheader__item_active');
         });
-	}
+    }
 
-	function showTabContent(i = 0) {
+    function showTabContent(i = 0) {
         tabsContent[i].classList.add('show', 'fade');
         tabsContent[i].classList.remove('hide');
         tabs[i].classList.add('tabheader__item_active');
     }
-    
+
     hideTabContent();
     showTabContent();
 
-	tabsParent.addEventListener('click', function(event) {
-		const target = event.target;
-		if(target && target.classList.contains('tabheader__item')) {
+    tabsParent.addEventListener('click', function (event) {
+        const target = event.target;
+        if (target && target.classList.contains('tabheader__item')) {
             tabs.forEach((item, i) => {
                 if (target == item) {
                     hideTabContent();
                     showTabContent(i);
                 }
             });
-		}
+        }
     });
-    
+
     // Timer
 
     const deadline = '2020-05-11';
 
     function getTimeRemaining(endtime) {
         const t = Date.parse(endtime) - Date.parse(new Date()),
-            days = Math.floor( (t/(1000*60*60*24)) ),
-            seconds = Math.floor( (t/1000) % 60 ),
-            minutes = Math.floor( (t/1000/60) % 60 ),
-            hours = Math.floor( (t/(1000*60*60) % 24) );
+            days = Math.floor((t / (1000 * 60 * 60 * 24))),
+            seconds = Math.floor((t / 1000) % 60),
+            minutes = Math.floor((t / 1000 / 60) % 60),
+            hours = Math.floor((t / (1000 * 60 * 60) % 24));
 
         return {
             'total': t,
@@ -59,8 +59,8 @@ window.addEventListener('DOMContentLoaded', function() {
         };
     }
 
-    function getZero(num){
-        if (num >= 0 && num < 10) { 
+    function getZero(num) {
+        if (num >= 0 && num < 10) {
             return '0' + num;
         } else {
             return num;
@@ -123,7 +123,7 @@ window.addEventListener('DOMContentLoaded', function() {
     });
 
     document.addEventListener('keydown', (e) => {
-        if (e.code === "Escape" && modal.classList.contains('show')) { 
+        if (e.code === "Escape" && modal.classList.contains('show')) {
             closeModal();
         }
     });
@@ -151,11 +151,11 @@ window.addEventListener('DOMContentLoaded', function() {
             this.classes = classes;
             this.parent = document.querySelector(parentSelector);
             this.transfer = 27;
-            this.changeToUAH(); 
+            this.changeToUAH();
         }
 
         changeToUAH() {
-            this.price = this.price * this.transfer; 
+            this.price = this.price * this.transfer;
         }
 
         render() {
@@ -240,17 +240,17 @@ window.addEventListener('DOMContentLoaded', function() {
     });
 
     const postData = async (url, body) => {
-        
+
         const res = await fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-type': 'application/json'
-                    },
-                    body: body
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: body
         });
 
         return await res.json();
-    
+
     };
 
     function bindPostData(form) {
@@ -264,106 +264,106 @@ window.addEventListener('DOMContentLoaded', function() {
                 margin: 0 auto;
             `;
             form.insertAdjacentElement('afterend', statusMessage);
-        
-            
+
+
             const formData = new FormData(form);
 
             const json = JSON.stringify(Object.fromEntries(formData.entries()));
 
             postData("https://jsonplaceholder.typicode.com/posts", json)
-            .then(json => {
-                console.log(json);
-                showThanksModal(message.success);
-                statusMessage.remove();
-            })
-            .catch(() => {
-                showThanksModal(message.failure);
-            })
-            .finally(() => {
-                form.reset;
-            })
+                .then(json => {
+                    console.log(json);
+                    showThanksModal(message.success);
+                    statusMessage.remove();
+                })
+                .catch(() => {
+                    showThanksModal(message.failure);
+                })
+                .finally(() => {
+                    form.reset;
+                })
 
-    function showThanksModal(message) {
-        const prevModalDialog = document.querySelector('.modal__dialog');
+            function showThanksModal(message) {
+                const prevModalDialog = document.querySelector('.modal__dialog');
 
-        prevModalDialog.classList.add('hide');
-        openModal();
+                prevModalDialog.classList.add('hide');
+                openModal();
 
-        const thanksModal = document.createElement('div');
-        thanksModal.classList.add('modal__dialog');
-        thanksModal.innerHTML = `
+                const thanksModal = document.createElement('div');
+                thanksModal.classList.add('modal__dialog');
+                thanksModal.innerHTML = `
             <div class="modal__content">
                 <div class="modal__close" data-close>×</div>
                 <div class="modal__title">${message}</div>
             </div>
         `;
-        document.querySelector('.modal').append(thanksModal);
-        setTimeout(() => {
-            thanksModal.remove();
-            prevModalDialog.classList.add('show');
-            prevModalDialog.classList.remove('hide');
-            closeModal();
-        }, 4000);
+                document.querySelector('.modal').append(thanksModal);
+                setTimeout(() => {
+                    thanksModal.remove();
+                    prevModalDialog.classList.add('show');
+                    prevModalDialog.classList.remove('hide');
+                    closeModal();
+                }, 4000);
+            }
+        });
     }
-   });
-  }
 
-  // Slider
+    // Slider
 
-  /*const slides = document.querySelectorAll('.offer__slide'),
-        prev = document.querySelector('.offer__slider-prev'),
-        next = document.querySelector('.offer__slider-next'),
-        totalSlides = document.querySelector('#total');
-  let currentSlide = document.querySelector('#current'),
-      slideIndex = 1;
+    /*const slides = document.querySelectorAll('.offer__slide'),
+          prev = document.querySelector('.offer__slider-prev'),
+          next = document.querySelector('.offer__slider-next'),
+          totalSlides = document.querySelector('#total');
+    let currentSlide = document.querySelector('#current'),
+        slideIndex = 1;
+  
+    console.log(slides);
+  
+    showSlides(slideIndex);
+  
+    function addZero(n) {
+        if(n < 10) {
+            return `0${n}`;
+        } else {
+            return n;
+        };
+    };
+  
+    function showSlides(n) {
+        if(n > slides.length) {
+          slideIndex = n = 1;
+        };
+  
+        if(n < 1) {
+          slideIndex = n = slides.length;
+        };
+  
+        slides.forEach(item => item.style.display = "none");
+  
+        slides[n - 1].style.display = "block";
+        currentSlide.innerHTML = addZero(n);
+    }
+  
+    function changeSlide(n) {
+        slideIndex += n;
+        showSlides(slideIndex);
+    };
+  
+    prev.addEventListener('click', () => {
+      changeSlide(-1);
+    });
+  
+    next.addEventListener('click', () => {
+      changeSlide(1);
+    });
+  */
 
-  console.log(slides);
+    let offset = 0;
+    let slideIndex = 1;
 
-  showSlides(slideIndex);
-
-  function addZero(n) {
-      if(n < 10) {
-          return `0${n}`;
-      } else {
-          return n;
-      };
-  };
-
-  function showSlides(n) {
-      if(n > slides.length) {
-        slideIndex = n = 1;
-      };
-
-      if(n < 1) {
-        slideIndex = n = slides.length;
-      };
-
-      slides.forEach(item => item.style.display = "none");
-
-      slides[n - 1].style.display = "block";
-      currentSlide.innerHTML = addZero(n);
-  }
-
-  function changeSlide(n) {
-      slideIndex += n;
-      showSlides(slideIndex);
-  };
-
-  prev.addEventListener('click', () => {
-    changeSlide(-1);
-  });
-
-  next.addEventListener('click', () => {
-    changeSlide(1);
-  });
-*/
-
-  let offset = 0;
-  let slideIndex = 1;
-
-  const slides = document.querySelectorAll('.offer__slide'),
+    const slides = document.querySelectorAll('.offer__slide'),
         slider = document.querySelector('.offer__slider')
-        prev = document.querySelector('.offer__slider-prev'),
+    prev = document.querySelector('.offer__slider-prev'),
         next = document.querySelector('.offer__slider-next'),
         totalSlides = document.querySelector('#total'),
         currentSlide = document.querySelector('#current'),
@@ -371,39 +371,39 @@ window.addEventListener('DOMContentLoaded', function() {
         width = window.getComputedStyle(slideWrapper).width,
         slidesField = document.querySelector('.offer__slider-inner');
 
-  function deleteSumbols(string) {
-      return +string.replace(/\D/g, '');
-  };
+    function deleteSumbols(string) {
+        return +string.replace(/\D/g, '');
+    };
 
-  function dotsRefresh() {
-    dots.forEach(dot => dot.style.opacity = ".5");
-    dots[slideIndex-1].style.opacity = 1;
-  };
+    function dotsRefresh() {
+        dots.forEach(dot => dot.style.opacity = ".5");
+        dots[slideIndex - 1].style.opacity = 1;
+    };
 
-  if (slides.length < 10) {
-      totalSlides.textContent = `0${slides.length}`;
-      currentSlide.textContent = `0${slideIndex}`
-  } else {
-      totalSlides.textContent = slides.length;
-      currentSlide.textContent = slideIndex;
-  }
+    if (slides.length < 10) {
+        totalSlides.textContent = `0${slides.length}`;
+        currentSlide.textContent = `0${slideIndex}`
+    } else {
+        totalSlides.textContent = slides.length;
+        currentSlide.textContent = slideIndex;
+    }
 
-  slidesField.style.width = 100 * slides.length + "%";
-  slidesField.style.display = "flex";
-  slidesField.style.transition = '0.5s all'
+    slidesField.style.width = 100 * slides.length + "%";
+    slidesField.style.display = "flex";
+    slidesField.style.transition = '0.5s all'
 
-  slideWrapper.style.overflow = 'hidden';
+    slideWrapper.style.overflow = 'hidden';
 
-  slides.forEach(slide => {
-      slide.style.width = width;
-  });
+    slides.forEach(slide => {
+        slide.style.width = width;
+    });
 
-  slider.style.position = "relative";
+    slider.style.position = "relative";
 
-  const indicators = document.createElement("ol"),
+    const indicators = document.createElement("ol"),
         dots = [];
-  indicators.classList.add("carousel-indicators");
-  indicators.style.cssText = `
+    indicators.classList.add("carousel-indicators");
+    indicators.style.cssText = `
     position: absolute;
     right: 0;
     bottom: 0;
@@ -415,12 +415,12 @@ window.addEventListener('DOMContentLoaded', function() {
     margin-left: 15%;
     list-style: none;
   `
-  slider.append(indicators);
+    slider.append(indicators);
 
-  for(let i = 0; i < slides.length; i++) {
-      const dot = document.createElement('li');
-      dot.setAttribute("data-slide-to", i + 1);
-      dot.style.cssText = `
+    for (let i = 0; i < slides.length; i++) {
+        const dot = document.createElement('li');
+        dot.setAttribute("data-slide-to", i + 1);
+        dot.style.cssText = `
         box-sizing: content-box;
         flex: 0 1 auto;
         width: 30px;
@@ -435,78 +435,149 @@ window.addEventListener('DOMContentLoaded', function() {
         opacity: .5;
         transition: opacity .6s ease;
       `;
-      if (i == 0) {
-          dot.style.opacity = 1;
-      };
-      indicators.append(dot);
-      dots.push(dot);
-  };
+        if (i == 0) {
+            dot.style.opacity = 1;
+        };
+        indicators.append(dot);
+        dots.push(dot);
+    };
 
-  next.addEventListener('click', () => {
-      if (offset == deleteSumbols(width) * (slides.length - 1)) {
-          offset = 0;
-      } else {
-          offset += deleteSumbols(width);
-      };
+    next.addEventListener('click', () => {
+        if (offset == deleteSumbols(width) * (slides.length - 1)) {
+            offset = 0;
+        } else {
+            offset += deleteSumbols(width);
+        };
 
-      slidesField.style.transform = `translateX(-${offset}px`;
+        slidesField.style.transform = `translateX(-${offset}px`;
 
-      if (slideIndex == slides.length) {
-          slideIndex = 1;
-      } else {
-          slideIndex++;
-      }
+        if (slideIndex == slides.length) {
+            slideIndex = 1;
+        } else {
+            slideIndex++;
+        }
 
-      if (slides.length < 10) {
-        currentSlide.textContent =  `0${slideIndex}`;
-      } else {
-        currentSlide.textContent =  slideIndex;
-      }
+        if (slides.length < 10) {
+            currentSlide.textContent = `0${slideIndex}`;
+        } else {
+            currentSlide.textContent = slideIndex;
+        }
 
-      dotsRefresh();
-      })
-  
+        dotsRefresh();
+    })
 
-  prev.addEventListener('click', () => {
-    if (offset == 0) {
-        offset = deleteSumbols(width) * (slides.length - 1);
-    } else {
-        offset -= deleteSumbols(width);
-    }
 
-    slidesField.style.transform = `translateX(-${offset}px)`;
+    prev.addEventListener('click', () => {
+        if (offset == 0) {
+            offset = deleteSumbols(width) * (slides.length - 1);
+        } else {
+            offset -= deleteSumbols(width);
+        }
 
-    if (slideIndex == 1) {
-        slideIndex = slides.length;
-    } else {
-        slideIndex--;
-    }
+        slidesField.style.transform = `translateX(-${offset}px)`;
 
-    if (slides.length < 10) {
-        currentSlide.textContent =  `0${slideIndex}`;
-    } else {
-        currentSlide.textContent =  slideIndex;
-    }
+        if (slideIndex == 1) {
+            slideIndex = slides.length;
+        } else {
+            slideIndex--;
+        }
 
-    dotsRefresh();
-  });
+        if (slides.length < 10) {
+            currentSlide.textContent = `0${slideIndex}`;
+        } else {
+            currentSlide.textContent = slideIndex;
+        }
 
-  dots.forEach(dot => {
-      dot.addEventListener('click', (e) => {
-          const slideTo = e.target.getAttribute('data-slide-to');
+        dotsRefresh();
+    });
 
-          slideIndex = slideTo;
-          offset = deleteSumbols(width) * (slideTo - 1);
+    dots.forEach(dot => {
+        dot.addEventListener('click', (e) => {
+            const slideTo = e.target.getAttribute('data-slide-to');
 
-          slidesField.style.transform = `translateX(-${offset}px)`;
+            slideIndex = slideTo;
+            offset = deleteSumbols(width) * (slideTo - 1);
 
-          if(slides.length < 10) {
-              current.textContent = `0${slideIndex}`;
-          } else {
-              current.textContent = slideIndex;
-          }
+            slidesField.style.transform = `translateX(-${offset}px)`;
 
-          dotsRefresh();
+            if (slides.length < 10) {
+                current.textContent = `0${slideIndex}`;
+            } else {
+                current.textContent = slideIndex;
+            }
+
+            dotsRefresh();
         });
     });
+
+    // Calculator
+
+    const result = document.querySelector('.calculating__result span');
+    let sex = 'female',
+        height, weight, age,
+        ratio = 1.375;
+
+    function calcTotal() {
+        if (weight == null || height == null || age == null) {
+            result.textContent = '____';
+            return;
+        }
+        if (sex === 'female') {
+            result.textContent = Math.round((447.6 + (9.2 * weight) + (3.1 * height) - (4.3 * age)) * ratio);
+        } else {
+            result.textContent = Math.round((88.36 + (13.4 * weight) + (4.8 * height) - (5.7 * age)) * ratio);
+        }
+    }
+
+    calcTotal();
+
+    function getStaticInformation(parentSelector, activeClass) {
+        const elements = document.querySelectorAll(`${parentSelector} div`);
+
+        elements.forEach(elem => {
+            elem.addEventListener('click', (e) => {
+                if (e.target.getAttribute('data-ratio')) {
+                    ratio = +e.target.getAttribute('data-ratio');
+                } else {
+                    sex = e.target.getAttribute('id');
+                }
+
+                elements.forEach(elem => {
+                    elem.classList.remove(activeClass);
+                });
+
+                e.target.classList.add(activeClass);
+
+                calcTotal();
+            });
+        });
+    }
+
+    getStaticInformation('#gender', 'calculating__choose-item_active');
+    getStaticInformation('.calculating__choose_big', 'calculating__choose-item_active');
+
+    function getDynamicInformation(selector) {
+        const input = document.querySelector(selector);
+
+        input.addEventListener('input', () => {
+            switch (input.getAttribute('id')) {
+                case "height":
+                    height = +input.value;
+                    break;
+                case "weight":
+                    weight = +input.value;
+                    break;
+                case "age":
+                    age = +input.value;
+                    break;
+            }
+
+            calcTotal();
+        });
+    }
+
+    getDynamicInformation('#height');
+    getDynamicInformation('#weight');
+    getDynamicInformation('#age');
+
 });
