@@ -2,7 +2,7 @@
   "name": "food_mamp",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "script.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/Vitalik-hash11/Food_mamp#readme",
   "devDependencies": {
-    "json-server": "^0.16.1"
+    "json-server": "^0.16.1",
+    "webpack": "^5.1.3",
+    "webpack-cli": "^4.0.0"
   }
 }
