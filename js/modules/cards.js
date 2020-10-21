@@ -87,4 +87,4 @@ function cards() {
     ).render();
 };
 
-module.exports = cards;
+export default cards;
